@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Street Run Takeover At Saunic</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.bg{min-height:100vh;padding:2rem 1rem 3rem;position:relative;overflow:hidden;background:#0f1a0f}
+.scene{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.wrap{max-width:460px;margin:0 auto;position:relative;z-index:2}
+.brand{text-align:center;margin-bottom:1.5rem}
+.brand-title{font-family:Impact,'Arial Black',sans-serif;font-size:42px;font-style:italic;font-weight:900;color:#ffffff;letter-spacing:2px;line-height:1}
+.card{background:rgba(255,255,255,0.97);border-radius:16px;padding:1.75rem}
+.tag{display:inline-block;background:#d4f0b0;color:#27500A;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;margin-bottom:1rem;letter-spacing:0.03em}
+h1{font-size:22px;font-weight:500;margin:0 0 4px;color:#1a1a1a}
+.sub{font-size:14px;color:#555;margin:0 0 1.25rem}
+.pace-badge{display:flex;align-items:center;background:#f4f4f0;border-radius:10px;margin-bottom:1.25rem;overflow:hidden}
+.pace-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 0}
+.pace-val{font-size:15px;font-weight:500;color:#1a1a1a}
+.pace-label{font-size:10px;color:#777;margin-top:2px;text-transform:uppercase;letter-spacing:0.05em}
+.pace-divider{width:0.5px;height:32px;background:#ddd}
+.row{display:flex;gap:8px;margin-bottom:6px}
+.row input{flex:1;border-radius:8px;border:1px solid #ddd;padding:0 12px;font-size:15px;height:44px;color:#1a1a1a;background:#fff;outline:none}
+.row input:focus{border-color:#639922}
+.btn{background:#1a1a1a;color:#fff;border:none;border-radius:8px;padding:0 22px;font-size:15px;cursor:pointer;height:44px;white-space:nowrap;font-weight:500;transition:opacity 0.2s}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+.btn:active{transform:scale(0.98)}
+.err{font-size:13px;color:#c0392b;min-height:18px;margin-bottom:4px}
+.confirm{display:none;text-align:center;padding:1.5rem 0}
+.confirm-title{font-size:18px;font-weight:500;color:#1a1a1a;margin-bottom:4px}
+.confirm-sub{font-size:14px;color:#555}
+.confirm-icon{width:48px;height:48px;background:#d4f0b0;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.admin-toggle{text-align:center;margin-top:14px}
+.admin-btn-sm{background:none;border:0.5px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.45);cursor:pointer}
+.admin-panel{display:none;margin-top:10px;background:rgba(255,255,255,0.08);border-radius:12px;padding:1rem;border:0.5px solid rgba(255,255,255,0.12)}
+.admin-row{display:flex;gap:8px;margin-bottom:8px}
+.admin-row input{flex:1;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:#fff;padding:0 12px;font-size:13px;height:36px;outline:none}
+.admin-row input::placeholder{color:rgba(255,255,255,0.35)}
+.admin-go{background:rgba(255,255,255,0.15);color:#fff;border:none;border-radius:8px;padding:0 14px;font-size:13px;cursor:pointer;height:36px}
+.admin-err{font-size:12px;color:#f0957b;min-height:16px}
+.admin-list{display:none}
+.admin-count{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:0}
+.admin-refresh{background:none;border:0.5px solid rgba(255,255,255,0.2);border-radius:6px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,0.45);cursor:pointer;margin-left:8px}
+.runner-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(255,255,255,0.1);font-size:14px;color:rgba(255,255,255,0.85)}
+.runner-item:last-child{border-bottom:none}
+.runner-time{font-size:11px;color:rgba(255,255,255,0.4);margin-left:auto}
+.avatar{width:26px;height:26px;border-radius:50%;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.empty-admin{font-size:13px;color:rgba(255,255,255,0.35);text-align:center;padding:8px 0}
+.loading{font-size:13px;color:rgba(255,255,255,0.4);text-align:center;padding:8px 0}
+.vibes-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.vibe-chip{background:#f4f4f0;border-radius:20px;padding:6px 12px;font-size:13px;font-weight:500;color:#1a1a1a}
+.action-btns{margin-top:1rem;display:flex;flex-direction:column;gap:8px}
+.discount-btn{background:#f4f4f0;color:#1a1a1a;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:500;cursor:pointer;text-align:center;transition:background 0.2s}
+.discount-btn:hover{background:#e8e8e4}
+.code-reveal{display:none;background:#d4f0b0;border-radius:8px;padding:12px;text-align:center}
+.code-label{display:block;font-size:11px;color:#27500A;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px}
+.code-value{font-size:20px;font-weight:700;color:#27500A;letter-spacing:2px}
+.book-btn{display:block;background:#1a1a1a;color:#fff;border-radius:8px;padding:13px;font-size:14px;font-weight:500;text-align:center;text-decoration:none;transition:opacity 0.2s}
+.book-btn:hover{opacity:0.85}
+</style>
+</head>
+<body>
+<div class="bg">
+  <svg class="scene" viewBox="0 0 700 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="700" height="600" fill="#0f1a0f"/>
+    <rect x="0" y="460" width="700" height="140" fill="#1a2e0a"/>
+    <rect x="0" y="455" width="700" height="12" fill="#2a4a10"/>
+    <rect x="0" y="415" width="700" height="48" fill="#223308"/>
+    <rect x="60" y="418" width="18" height="6" rx="2" fill="#3a5a14"/>
+    <rect x="100" y="420" width="12" height="8" rx="2" fill="#4a6e1a"/>
+    <rect x="140" y="416" width="22" height="10" rx="2" fill="#3a5a14"/>
+    <rect x="200" y="419" width="14" height="7" rx="2" fill="#4a6e1a"/>
+    <rect x="250" y="417" width="20" height="9" rx="2" fill="#3a5a14"/>
+    <rect x="310" y="420" width="10" height="6" rx="2" fill="#4a6e1a"/>
+    <rect x="360" y="416" width="24" height="11" rx="2" fill="#3a5a14"/>
+    <rect x="420" y="419" width="16" height="7" rx="2" fill="#4a6e1a"/>
+    <rect x="480" y="417" width="18" height="9" rx="2" fill="#3a5a14"/>
+    <rect x="540" y="420" width="12" height="6" rx="2" fill="#4a6e1a"/>
+    <rect x="590" y="416" width="22" height="10" rx="2" fill="#3a5a14"/>
+    <rect x="640" y="419" width="14" height="8" rx="2" fill="#4a6e1a"/>
+    <rect x="0" y="460" width="700" height="6" fill="#1e3a0c"/>
+    <line x1="0" y1="463" x2="700" y2="463" stroke="#4a8a20" stroke-width="0.5" stroke-dasharray="40 20"/>
+    <line x1="0" y1="480" x2="700" y2="480" stroke="#2a4a10" stroke-width="1"/>
+    <line x1="0" y1="500" x2="700" y2="500" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="8 6"/>
+    <line x1="0" y1="520" x2="700" y2="520" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="8 6"/>
+    <line x1="0" y1="540" x2="700" y2="540" stroke="#2a4a10" stroke-width="1"/>
+    <line x1="50" y1="456" x2="50" y2="600" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="6 8"/>
+    <line x1="150" y1="456" x2="150" y2="600" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="6 8"/>
+    <line x1="250" y1="456" x2="250" y2="600" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="6 8"/>
+    <line x1="350" y1="456" x2="350" y2="600" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="6 8"/>
+    <line x1="450" y1="456" x2="450" y2="600" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="6 8"/>
+    <line x1="550" y1="456" x2="550" y2="600" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="6 8"/>
+    <line x1="650" y1="456" x2="650" y2="600" stroke="#2a4a10" stroke-width="0.5" stroke-dasharray="6 8"/>
+    <ellipse cx="80" cy="415" rx="25" ry="55" fill="#1e3a0c"/>
+    <ellipse cx="80" cy="415" rx="16" ry="40" fill="#2a5010"/>
+    <ellipse cx="200" cy="415" rx="20" ry="45" fill="#1e3a0c"/>
+    <ellipse cx="200" cy="415" rx="12" ry="32" fill="#2a5010"/>
+    <ellipse cx="350" cy="415" rx="30" ry="65" fill="#1a3308"/>
+    <ellipse cx="350" cy="415" rx="20" ry="50" fill="#2a5010"/>
+    <ellipse cx="500" cy="415" rx="22" ry="50" fill="#1e3a0c"/>
+    <ellipse cx="500" cy="415" rx="14" ry="36" fill="#2a5010"/>
+    <ellipse cx="630" cy="415" rx="28" ry="58" fill="#1a3308"/>
+    <ellipse cx="630" cy="415" rx="18" ry="44" fill="#2a5010"/>
+    <path d="M55 340 Q70 200 85 100 Q90 60 100 20" stroke="#3a6a18" stroke-width="1" fill="none"/>
+    <path d="M180 340 Q195 230 205 140 Q210 90 218 40" stroke="#3a6a18" stroke-width="1" fill="none"/>
+    <path d="M320 340 Q338 210 352 110 Q358 65 365 20" stroke="#3a6a18" stroke-width="1.5" fill="none"/>
+    <path d="M476 340 Q490 235 500 145 Q505 95 512 50" stroke="#3a6a18" stroke-width="1" fill="none"/>
+    <path d="M605 340 Q620 215 632 120 Q637 72 644 28" stroke="#3a6a18" stroke-width="1.2" fill="none"/>
+    <ellipse cx="120" cy="160" rx="8" ry="5" fill="#639922" opacity="0.6"/>
+    <ellipse cx="126" cy="155" rx="10" ry="6" fill="#639922" opacity="0.5"/>
+    <ellipse cx="390" cy="130" rx="10" ry="6" fill="#639922" opacity="0.6"/>
+    <ellipse cx="398" cy="124" rx="13" ry="7" fill="#639922" opacity="0.55"/>
+    <circle cx="580" cy="50" r="32" fill="#f5c842" opacity="0.9"/>
+    <circle cx="580" cy="50" r="28" fill="#f7d060"/>
+    <circle cx="340" cy="8" r="1.5" fill="#fff" opacity="0.6"/>
+    <circle cx="420" cy="22" r="1" fill="#fff" opacity="0.5"/>
+    <circle cx="160" cy="18" r="1" fill="#fff" opacity="0.4"/>
+    <path d="M30 415 Q40 408 50 412 Q60 406 70 410 Q80 404 90 409 Q100 403 110 408 Q120 402 130 407 Q140 401 150 406 Q160 400 170 405 Q180 399 190 404 Q200 398 210 403 Q220 397 230 402 Q240 396 250 401 Q260 395 270 400 Q280 394 290 399 Q300 393 310 398 Q320 392 330 397 Q340 391 350 396 Q360 390 370 395 Q380 389 390 394 Q400 388 410 393 Q420 387 430 392 Q440 386 450 391 Q460 385 470 390 Q480 384 490 389 Q500 383 510 388 Q520 382 530 387 Q540 381 550 386 Q560 380 570 385 Q580 379 590 384 Q600 378 610 383 Q620 377 630 382 Q640 376 650 381 Q660 375 670 380 L700 415 Z" fill="#223308" opacity="0.7"/>
+  </svg>
+
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-title">Street Run</div>
+    </div>
+
+    <div class="card">
+      <div class="tag">August 8th</div>
+      <h1>Street Run Takeover At Saunic</h1>
+      <p class="sub">The post-run experience is a paid event. Let us know you are coming! <strong style="color:#c0392b">Limited spots available!</strong></p>
+
+      <div class="pace-badge">
+        <div class="pace-item"><span class="pace-val">8PM</span><span class="pace-label">Start</span></div>
+        <div class="pace-divider"></div>
+        <div class="pace-item"><span class="pace-val">10PM</span><span class="pace-label">End</span></div>
+      </div>
+
+      <div class="vibes-row">
+        <div class="vibe-chip">&#127925; Live Music</div>
+        <div class="vibe-chip">&#129718; Sauna</div>
+        <div class="vibe-chip">&#129482; Cold Plunge</div>
+      </div>
+
+      <div id="signupForm">
+        <div class="row">
+          <input type="text" id="nameInput" placeholder="Your name" maxlength="40"/>
+          <button class="btn" id="submitBtn" onclick="signUp()">I'm in</button>
+        </div>
+        <div class="err" id="err"></div>
+      </div>
+
+      <div class="confirm" id="confirm">
+        <div class="confirm-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#27500A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="confirm-title" id="confirmName"></div>
+        <div class="confirm-sub">See you August 8th!</div>
+      </div>
+
+      <div class="action-btns">
+        <button class="discount-btn" onclick="toggleCode()">&#127991; Get Discount Code</button>
+        <div class="code-reveal" id="codeReveal">
+          <span class="code-label">Use code at checkout:</span>
+          <span class="code-value">STREETXSAUN25</span>
+        </div>
+        <a class="book-btn" href="https://www.saunic.ca/?gad_source=1&gad_campaignid=23969565981&gbraid=0AAAABEEkIgZ-eHnKhdw7GQ-ojZYWBnQE6&gclid=Cj0KCQjwm8bTBhDWARIsAC9Hi8nOPQWZUvnkoiS4yzOobADGXwaz3psKlRScQjvFuqPz1FD-G54E9HQaAvNQEALw_wcB" target="_blank">Book Your Spot at Saunic &#8594;</a>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<script>
+const API = 'https://sheetdb.io/api/v1/5wl7lck291e81';
+const PASS = 'run2024';
+const avatarColors = ['rgba(100,200,100,0.2)','rgba(100,160,220,0.2)','rgba(220,160,80,0.2)'];
+const avatarText = ['#9FE1CB','#85B7EB','#FAC775'];
+
+function initials(n){return n.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
+
+function toggleCode(){
+  const rev = document.getElementById('codeReveal');
+  const btn = document.querySelector('.discount-btn');
+  if(rev.style.display === 'block'){
+    rev.style.display = 'none';
+    btn.textContent = '🏷 Get Discount Code';
+  } else {
+    rev.style.display = 'block';
+    btn.textContent = '✕ Hide Code';
+  }
+}
+
+async function signUp(){
+  const input = document.getElementById('nameInput');
+  const err = document.getElementById('err');
+  const btn = document.getElementById('submitBtn');
+  const name = input.value.trim();
+  if(!name){err.textContent='Please enter your name.';return;}
+
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
+  err.textContent = '';
+
+  try {
+    const now = new Date().toLocaleString('en-US',{dateStyle:'short',timeStyle:'short'});
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({data:[{Name: name, Time: now}]})
+    });
+    if(!res.ok) throw new Error('Failed');
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('confirm').style.display = 'block';
+    document.getElementById('confirmName').textContent = "You're in, " + name.split(' ')[0] + "!";
+  } catch(e) {
+    err.textContent = 'Something went wrong. Please try again.';
+    btn.disabled = false;
+    btn.textContent = "I'm in";
+  }
+}
+
+document.getElementById('nameInput').addEventListener('keydown', e=>{if(e.key==='Enter')signUp();});
+
+function toggleAdmin(){
+  const p = document.getElementById('adminPanel');
+  p.style.display = p.style.display === 'none' || p.style.display === '' ? 'block' : 'none';
+}
+
+function checkPass(){
+  const val = document.getElementById('passInput').value;
+  const err = document.getElementById('passErr');
+  if(val === PASS){
+    err.textContent = '';
+    document.getElementById('passRow').style.display = 'none';
+    document.getElementById('adminList').style.display = 'block';
+    loadRunners();
+  } else {
+    err.textContent = 'Incorrect password.';
+  }
+}
+
+async function loadRunners(){
+  const items = document.getElementById('runnerItems');
+  const count = document.getElementById('adminCount');
+  items.innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    const res = await fetch(API);
+    const data = await res.json();
+    count.textContent = data.length + ' runner' + (data.length !== 1 ? 's' : '') + ' signed up';
+    if(data.length === 0){
+      items.innerHTML = '<div class="empty-admin">No sign-ups yet.</div>';
+      return;
+    }
+    items.innerHTML = data.map((r,i) => `
+      <div class="runner-item">
+        <div class="avatar" style="background:${avatarColors[i%3]};color:${avatarText[i%3]}">${initials(r.Name)}</div>
+        ${r.Name}
+        <span class="runner-time">${r.Time||''}</span>
+      </div>`).join('');
+  } catch(e) {
+    items.innerHTML = '<div class="empty-admin">Could not load runners.</div>';
+  }
+}
+</script>
+</body>
+</html>
