@@ -21,6 +21,8 @@ h1{font-size:22px;font-weight:500;margin:0 0 4px;color:#1a1a1a}
 .pace-val{font-size:15px;font-weight:500;color:#1a1a1a}
 .pace-label{font-size:10px;color:#777;margin-top:2px;text-transform:uppercase;letter-spacing:0.05em}
 .pace-divider{width:0.5px;height:32px;background:#ddd}
+.vibes-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
+.vibe-chip{background:#f4f4f0;border-radius:20px;padding:6px 12px;font-size:13px;font-weight:500;color:#1a1a1a}
 .row{display:flex;gap:8px;margin-bottom:6px}
 .row input{flex:1;border-radius:8px;border:1px solid #ddd;padding:0 12px;font-size:15px;height:44px;color:#1a1a1a;background:#fff;outline:none}
 .row input:focus{border-color:#639922}
@@ -32,25 +34,6 @@ h1{font-size:22px;font-weight:500;margin:0 0 4px;color:#1a1a1a}
 .confirm-title{font-size:18px;font-weight:500;color:#1a1a1a;margin-bottom:4px}
 .confirm-sub{font-size:14px;color:#555}
 .confirm-icon{width:48px;height:48px;background:#d4f0b0;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
-.admin-toggle{text-align:center;margin-top:14px}
-.admin-btn-sm{background:none;border:0.5px solid rgba(255,255,255,0.2);border-radius:8px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.45);cursor:pointer}
-.admin-panel{display:none;margin-top:10px;background:rgba(255,255,255,0.08);border-radius:12px;padding:1rem;border:0.5px solid rgba(255,255,255,0.12)}
-.admin-row{display:flex;gap:8px;margin-bottom:8px}
-.admin-row input{flex:1;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.1);color:#fff;padding:0 12px;font-size:13px;height:36px;outline:none}
-.admin-row input::placeholder{color:rgba(255,255,255,0.35)}
-.admin-go{background:rgba(255,255,255,0.15);color:#fff;border:none;border-radius:8px;padding:0 14px;font-size:13px;cursor:pointer;height:36px}
-.admin-err{font-size:12px;color:#f0957b;min-height:16px}
-.admin-list{display:none}
-.admin-count{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:0}
-.admin-refresh{background:none;border:0.5px solid rgba(255,255,255,0.2);border-radius:6px;padding:3px 10px;font-size:11px;color:rgba(255,255,255,0.45);cursor:pointer;margin-left:8px}
-.runner-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(255,255,255,0.1);font-size:14px;color:rgba(255,255,255,0.85)}
-.runner-item:last-child{border-bottom:none}
-.runner-time{font-size:11px;color:rgba(255,255,255,0.4);margin-left:auto}
-.avatar{width:26px;height:26px;border-radius:50%;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.empty-admin{font-size:13px;color:rgba(255,255,255,0.35);text-align:center;padding:8px 0}
-.loading{font-size:13px;color:rgba(255,255,255,0.4);text-align:center;padding:8px 0}
-.vibes-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem}
-.vibe-chip{background:#f4f4f0;border-radius:20px;padding:6px 12px;font-size:13px;font-weight:500;color:#1a1a1a}
 .action-btns{margin-top:1rem;display:flex;flex-direction:column;gap:8px}
 .discount-btn{background:#f4f4f0;color:#1a1a1a;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:500;cursor:pointer;text-align:center;transition:background 0.2s}
 .discount-btn:hover{background:#e8e8e4}
@@ -143,14 +126,11 @@ h1{font-size:22px;font-weight:500;margin:0 0 4px;color:#1a1a1a}
       </div>
 
       <div id="signupForm">
-        <form name="street-run-signup" method="POST" data-netlify="true" onsubmit="handleSubmit(event)">
-          <input type="hidden" name="form-name" value="street-run-signup"/>
-          <div class="row">
-            <input type="text" id="nameInput" name="Name" placeholder="Your name" maxlength="40" required/>
-            <button class="btn" id="submitBtn" type="submit">I'm in</button>
-          </div>
-          <div class="err" id="err"></div>
-        </form>
+        <div class="row">
+          <input type="text" id="nameInput" placeholder="Your name" maxlength="40"/>
+          <button class="btn" id="submitBtn" onclick="signUp()">I'm in</button>
+        </div>
+        <div class="err" id="err"></div>
       </div>
 
       <div class="confirm" id="confirm">
@@ -170,12 +150,13 @@ h1{font-size:22px;font-weight:500;margin:0 0 4px;color:#1a1a1a}
         <a class="book-btn" href="https://www.saunic.ca/?gad_source=1&gad_campaignid=23969565981&gbraid=0AAAABEEkIgZ-eHnKhdw7GQ-ojZYWBnQE6&gclid=Cj0KCQjwm8bTBhDWARIsAC9Hi8nOPQWZUvnkoiS4yzOobADGXwaz3psKlRScQjvFuqPz1FD-G54E9HQaAvNQEALw_wcB" target="_blank">Book Your Spot at Saunic &#8594;</a>
       </div>
     </div>
-
-
   </div>
 </div>
 
 <script>
+// STEP: Paste your Google Apps Script URL below after setting it up
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzifl82Nelc_zQrm59yg48baUhPaUi3wY1Y5XU9XjC50TwP6oAvi3flrSh2eaRjt4S2/exec';
+
 function toggleCode(){
   const rev = document.getElementById('codeReveal');
   const btn = document.querySelector('.discount-btn');
@@ -188,9 +169,7 @@ function toggleCode(){
   }
 }
 
-async function handleSubmit(e){
-  e.preventDefault();
-  const form = e.target;
+async function signUp(){
   const input = document.getElementById('nameInput');
   const err = document.getElementById('err');
   const btn = document.getElementById('submitBtn');
@@ -202,13 +181,13 @@ async function handleSubmit(e){
   err.textContent = '';
 
   try {
-    const data = new FormData(form);
-    const res = await fetch('/', {
-      method: 'POST',
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: new URLSearchParams(data).toString()
+    const now = new Date().toLocaleString('en-US',{dateStyle:'short',timeStyle:'short'});
+    fetch(SCRIPT_URL + '?name=' + encodeURIComponent(name) + '&time=' + encodeURIComponent(now), {
+      method: 'GET',
+      mode: 'no-cors'
     });
-    if(!res.ok) throw new Error('Failed');
+    // no-cors means we can't read the response, but the request goes through
+    // show success immediately
     document.getElementById('signupForm').style.display = 'none';
     document.getElementById('confirm').style.display = 'block';
     document.getElementById('confirmName').textContent = "You're in, " + name.split(' ')[0] + "!";
@@ -219,41 +198,7 @@ async function handleSubmit(e){
   }
 }
 
-function checkPass(){
-  const val = document.getElementById('passInput').value;
-  const err = document.getElementById('passErr');
-  if(val === PASS){
-    err.textContent = '';
-    document.getElementById('passRow').style.display = 'none';
-    document.getElementById('adminList').style.display = 'block';
-    loadRunners();
-  } else {
-    err.textContent = 'Incorrect password.';
-  }
-}
-
-async function loadRunners(){
-  const items = document.getElementById('runnerItems');
-  const count = document.getElementById('adminCount');
-  items.innerHTML = '<div class="loading">Loading...</div>';
-  try {
-    const res = await fetch(API);
-    const data = await res.json();
-    count.textContent = data.length + ' runner' + (data.length !== 1 ? 's' : '') + ' signed up';
-    if(data.length === 0){
-      items.innerHTML = '<div class="empty-admin">No sign-ups yet.</div>';
-      return;
-    }
-    items.innerHTML = data.map((r,i) => `
-      <div class="runner-item">
-        <div class="avatar" style="background:${avatarColors[i%3]};color:${avatarText[i%3]}">${initials(r.Name)}</div>
-        ${r.Name}
-        <span class="runner-time">${r.Time||''}</span>
-      </div>`).join('');
-  } catch(e) {
-    items.innerHTML = '<div class="empty-admin">Could not load runners.</div>';
-  }
-}
+document.getElementById('nameInput').addEventListener('keydown', e=>{if(e.key==='Enter')signUp();});
 </script>
 </body>
 </html>
