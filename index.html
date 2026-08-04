@@ -143,11 +143,14 @@ h1{font-size:22px;font-weight:500;margin:0 0 4px;color:#1a1a1a}
       </div>
 
       <div id="signupForm">
-        <div class="row">
-          <input type="text" id="nameInput" placeholder="Your name" maxlength="40"/>
-          <button class="btn" id="submitBtn" onclick="signUp()">I'm in</button>
-        </div>
-        <div class="err" id="err"></div>
+        <form name="street-run-signup" method="POST" data-netlify="true" onsubmit="handleSubmit(event)">
+          <input type="hidden" name="form-name" value="street-run-signup"/>
+          <div class="row">
+            <input type="text" id="nameInput" name="Name" placeholder="Your name" maxlength="40" required/>
+            <button class="btn" id="submitBtn" type="submit">I'm in</button>
+          </div>
+          <div class="err" id="err"></div>
+        </form>
       </div>
 
       <div class="confirm" id="confirm">
@@ -173,13 +176,6 @@ h1{font-size:22px;font-weight:500;margin:0 0 4px;color:#1a1a1a}
 </div>
 
 <script>
-const API = 'https://sheetdb.io/api/v1/5wl7lck291e81';
-const PASS = 'run2024';
-const avatarColors = ['rgba(100,200,100,0.2)','rgba(100,160,220,0.2)','rgba(220,160,80,0.2)'];
-const avatarText = ['#9FE1CB','#85B7EB','#FAC775'];
-
-function initials(n){return n.trim().split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);}
-
 function toggleCode(){
   const rev = document.getElementById('codeReveal');
   const btn = document.querySelector('.discount-btn');
@@ -192,7 +188,9 @@ function toggleCode(){
   }
 }
 
-async function signUp(){
+async function handleSubmit(e){
+  e.preventDefault();
+  const form = e.target;
   const input = document.getElementById('nameInput');
   const err = document.getElementById('err');
   const btn = document.getElementById('submitBtn');
@@ -204,11 +202,11 @@ async function signUp(){
   err.textContent = '';
 
   try {
-    const now = new Date().toLocaleString('en-US',{dateStyle:'short',timeStyle:'short'});
-    const res = await fetch(API, {
+    const data = new FormData(form);
+    const res = await fetch('/', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({data:[{Name: name, Time: now}]})
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: new URLSearchParams(data).toString()
     });
     if(!res.ok) throw new Error('Failed');
     document.getElementById('signupForm').style.display = 'none';
@@ -219,13 +217,6 @@ async function signUp(){
     btn.disabled = false;
     btn.textContent = "I'm in";
   }
-}
-
-document.getElementById('nameInput').addEventListener('keydown', e=>{if(e.key==='Enter')signUp();});
-
-function toggleAdmin(){
-  const p = document.getElementById('adminPanel');
-  p.style.display = p.style.display === 'none' || p.style.display === '' ? 'block' : 'none';
 }
 
 function checkPass(){
